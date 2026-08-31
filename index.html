@@ -82,6 +82,56 @@
   .hero-badge.beyond { background: var(--behind); color: #fff; }
   .hero-badge.none { background: var(--line-soft); color: var(--ink-soft); }
 
+  .pmt-ledger {
+    margin-top: 20px;
+    border-top: 1px solid var(--ink);
+  }
+  .ledger-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .ledger-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+    transform: translateY(1px);
+  }
+  .ledger-tag.a { background: var(--a); }
+  .ledger-tag.b { background: var(--b); }
+  .ledger-label {
+    font-size: 14px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .ledger-leader {
+    flex: 1;
+    border-bottom: 1px dotted var(--line);
+    margin-bottom: 4px;
+    min-width: 12px;
+  }
+  .ledger-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 19px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .pmt-diff {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 10px 2px 0;
+  }
+  .pmt-diff strong { color: var(--ink); font-weight: 600; }
+
   /* ---------- Chart ---------- */
   .chart-section { padding: 24px 18px 8px; }
   .chart-title { font-size: 13px; color: var(--ink-soft); margin: 0 0 10px; }
@@ -119,13 +169,27 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     font-weight: 600;
     font-size: 14.5px;
   }
+  .summary-left { display: flex; align-items: center; gap: 10px; }
   details.group summary::-webkit-details-marker { display: none; }
-  .group.a summary { border-left: 4px solid var(--a); }
-  .group.b summary { border-left: 4px solid var(--b); }
-  .group.shared summary { border-left: 4px solid var(--ink-soft); }
+  .group-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+  }
+  .group-tag.a { background: var(--a); }
+  .group-tag.b { background: var(--b); }
+  .group-tag.shared { background: var(--ink-soft); }
   .chev { transition: transform 0.15s ease; color: var(--ink-soft); font-size: 12px; }
   details[open] .chev { transform: rotate(90deg); }
 
@@ -141,46 +205,56 @@
   }
   input[type=number] {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
     color: var(--ink);
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 9px 10px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    padding: 6px 2px;
     width: 100%;
     min-width: 0;
+    transition: border-color 0.15s ease;
   }
   input[type=number]:focus {
-    outline: 2px solid var(--a);
-    outline-offset: -1px;
+    outline: none;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 5px;
   }
   select {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 14px;
-    padding: 9px 10px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: var(--paper);
+    padding: 8px 2px;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
     color: var(--ink);
     width: 100%;
   }
-
-  /* ---------- Summary cards ---------- */
-  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
-  .card {
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 14px;
-    background: var(--paper-raised);
+  select:focus {
+    outline: none;
+    border-bottom: 2px solid var(--ink);
   }
-  .card.a { border-top: 3px solid var(--a); }
-  .card.b { border-top: 3px solid var(--b); }
-  .card-label { font-size: 12px; color: var(--ink-soft); margin: 0 0 8px; }
-  .card-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 4px 0; }
-  .card-row + .card-row { border-top: 1px dashed var(--line-soft); }
-  .card-row .k { color: var(--ink-soft); }
-  .card-row .v { font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+
+  /* ---------- Summary ledger blocks ---------- */
+  .summary-ledger {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .summary-block { }
+  .summary-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14.5px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 2px;
+  }
 
   /* ---------- Table ---------- */
   .table-wrap {
@@ -236,7 +310,7 @@
   }
 
   @media (max-width: 380px) {
-    .cards { grid-template-columns: 1fr; }
+    .ledger-label { font-size: 13px; }
   }
 </style>
 </head>
@@ -248,6 +322,22 @@
     <p class="hero-stat" id="heroStat">—<span class="unit">years in</span></p>
     <p class="hero-sub" id="heroSub">Enter your numbers below to see when the smaller down payment overtakes the larger one.</p>
     <div class="hero-badge none" id="heroBadge">Awaiting inputs</div>
+
+    <div class="pmt-ledger">
+      <div class="ledger-row">
+        <span class="ledger-tag a">A</span>
+        <span class="ledger-label">Monthly P&amp;I</span>
+        <span class="ledger-leader"></span>
+        <span class="ledger-value" id="heroPmtA">—</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-tag b">B</span>
+        <span class="ledger-label">Monthly P&amp;I</span>
+        <span class="ledger-leader"></span>
+        <span class="ledger-value" id="heroPmtB">—</span>
+      </div>
+    </div>
+    <p class="pmt-diff" id="heroPmtDiff"></p>
   </div>
 </div>
 
@@ -266,7 +356,7 @@
   <p class="section-note">Grouped by what they affect — property-wide facts, then each scenario's own terms.</p>
 
   <details class="group shared" open>
-    <summary>Shared <span class="chev">▸</span></summary>
+    <summary><span class="summary-left"><span class="group-tag shared">—</span>Shared</span><span class="chev">▸</span></summary>
     <div class="fields">
       <div class="field">
         <label for="price">Purchase price</label>
@@ -284,7 +374,7 @@
   </details>
 
   <details class="group a" open>
-    <summary>Scenario A — conventional <span class="chev">▸</span></summary>
+    <summary><span class="summary-left"><span class="group-tag a">A</span>Conventional</span><span class="chev">▸</span></summary>
     <div class="fields">
       <div class="field">
         <label for="aDown">Down payment</label>
@@ -298,7 +388,7 @@
   </details>
 
   <details class="group b" open>
-    <summary>Scenario B — insured + paydown <span class="chev">▸</span></summary>
+    <summary><span class="summary-left"><span class="group-tag b">B</span>Insured + paydown</span><span class="chev">▸</span></summary>
     <div class="fields">
       <div class="field">
         <label for="bDownPct">Down payment</label>
@@ -327,18 +417,24 @@
   </details>
 
   <h2 class="section-title">Scenario summary</h2>
-  <div class="cards">
-    <div class="card a">
-      <p class="card-label">A · Conventional</p>
-      <div class="card-row"><span class="k">Loan</span><span class="v" id="aLoanOut">—</span></div>
-      <div class="card-row"><span class="k">Monthly P&I</span><span class="v" id="aPmtOut">—</span></div>
-      <div class="card-row"><span class="k">Premium</span><span class="v">$0</span></div>
+  <div class="summary-ledger">
+    <div class="summary-block">
+      <div class="summary-head">
+        <span class="ledger-tag a">A</span>
+        <span>Conventional</span>
+      </div>
+      <div class="ledger-row"><span class="ledger-label">Loan</span><span class="ledger-leader"></span><span class="ledger-value" id="aLoanOut">—</span></div>
+      <div class="ledger-row"><span class="ledger-label">Monthly P&amp;I</span><span class="ledger-leader"></span><span class="ledger-value" id="aPmtOut">—</span></div>
+      <div class="ledger-row" style="border-bottom:none;"><span class="ledger-label">Premium</span><span class="ledger-leader"></span><span class="ledger-value">$0</span></div>
     </div>
-    <div class="card b">
-      <p class="card-label">B · Insured</p>
-      <div class="card-row"><span class="k">Loan</span><span class="v" id="bLoanOut">—</span></div>
-      <div class="card-row"><span class="k">Monthly P&I</span><span class="v" id="bPmtOut">—</span></div>
-      <div class="card-row"><span class="k">Premium</span><span class="v" id="premOut">—</span></div>
+    <div class="summary-block">
+      <div class="summary-head">
+        <span class="ledger-tag b">B</span>
+        <span>Insured</span>
+      </div>
+      <div class="ledger-row"><span class="ledger-label">Loan</span><span class="ledger-leader"></span><span class="ledger-value" id="bLoanOut">—</span></div>
+      <div class="ledger-row"><span class="ledger-label">Monthly P&amp;I</span><span class="ledger-leader"></span><span class="ledger-value" id="bPmtOut">—</span></div>
+      <div class="ledger-row" style="border-bottom:none;"><span class="ledger-label">Premium</span><span class="ledger-leader"></span><span class="ledger-value" id="premOut">—</span></div>
     </div>
   </div>
 
@@ -362,7 +458,7 @@
     </div>
   </div>
 
-  <p class="footnote">This is a planning model, not a lender quote. Confirm your actual insured rate, premium bracket, and whether prepayment privileges (lump sum + payment increase) apply the same way on an insured product before relying on these numbers.</p>
+  <p class="footnote">This is a planning model, not a lender quote. Rates are compounded semi-annually per Canadian mortgage law, converted to an effective monthly rate for the payment calculation. Confirm your actual insured rate, premium bracket, and whether prepayment privileges (lump sum + payment increase) apply the same way on an insured product before relying on these numbers.</p>
 
 </div>
 
@@ -371,8 +467,14 @@
   const fmt$ = n => '$' + Math.round(n).toLocaleString('en-CA');
   const fmt$k = n => '$' + (Math.round(n/1000)) + 'k';
 
+  // Canadian mortgages compound semi-annually by law, regardless of payment
+  // frequency. Convert the nominal annual rate to an effective monthly rate.
+  function effectiveMonthlyRate(rateAnnual) {
+    return Math.pow(1 + rateAnnual/2, 1/6) - 1;
+  }
+
   function pmt(rateAnnual, nMonths, principal) {
-    const r = rateAnnual/12;
+    const r = effectiveMonthlyRate(rateAnnual);
     if (r === 0) return principal / nMonths;
     return principal * r / (1 - Math.pow(1+r, -nMonths));
   }
@@ -381,7 +483,7 @@
     const loan = price - down;
     const n = amortYears * 12;
     const monthly = pmt(rateAnnual, n, loan);
-    const r = rateAnnual/12;
+    const r = effectiveMonthlyRate(rateAnnual);
     let balance = loan;
     let cash = down;
     const rows = [];
@@ -410,7 +512,7 @@
     const loan = baseLoan + premium;
     const n = amortYears * 12;
     const monthly = pmt(rateAnnual, n, loan);
-    const r = rateAnnual/12;
+    const r = effectiveMonthlyRate(rateAnnual);
     const lumpCap = loan * lumpCapPct/100;
 
     let balance = loan;
@@ -481,6 +583,18 @@
     $('bLoanOut').textContent = fmt$(B.loan);
     $('bPmtOut').textContent = fmt$(B.monthly) + '/mo';
     $('premOut').textContent = fmt$(B.premium);
+
+    $('heroPmtA').textContent = fmt$(A.monthly);
+    $('heroPmtB').textContent = fmt$(B.monthly);
+    const pmtDiff = B.monthly - A.monthly;
+    const pmtDiffEl = $('heroPmtDiff');
+    if (Math.abs(pmtDiff) < 1) {
+      pmtDiffEl.innerHTML = 'Same monthly payment in both scenarios.';
+    } else if (pmtDiff > 0) {
+      pmtDiffEl.innerHTML = 'Scenario B costs <strong>' + fmt$(pmtDiff) + '/mo more</strong> than Scenario A, every month, for as long as the loan runs.';
+    } else {
+      pmtDiffEl.innerHTML = 'Scenario B costs <strong>' + fmt$(Math.abs(pmtDiff)) + '/mo less</strong> than Scenario A.';
+    }
 
     // find crossover: first year where B.total < A.total
     let crossoverYear = null;
